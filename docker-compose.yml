@@ -8,10 +8,10 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - "54333:5432"
+      - "5432:5432"
   web:
     build: .
-    command: tail -f /dev/null
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/test_app
       - /test_app/node_modules
