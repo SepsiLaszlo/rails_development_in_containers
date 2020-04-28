@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @ruby_mine.name %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @ruby_mine.points %>
+</p>
+
+<%= link_to 'Edit', edit_ruby_mine_path(@ruby_mine) %> |
+<%= link_to 'Back', ruby_mines_path %>

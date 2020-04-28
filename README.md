@@ -28,8 +28,36 @@ Az alkalmazás első futtatásakor létre kell hozni az adatbázist. Ez a web co
 
 Ezután a localhost:3000 címen megtekinthető a weboldal.
 
+A továbbiakban nem szeretnénk rögtön elinitani a rails szervert, ezért módositjuk a web szolgáltatás parancsát, hogy csak egy filet figyeljen.
+
+```docker-compose
+#docker-compose.yml
+
+command: tail -f /dev/null
+```
 
 ![alt text](images/start.png "Image")
 
+## RubyMine
+Megnyitjuk az IDE-t a projectünk mappájában. A Settings/Preferences/Languages & Frameworks/Ruby SDK and Gems
+hez navigálunk. Itt a New remote gombra katiintva felugrik egy dialógus ablak beállítjuk a Docker Compose használatát, valamint a használt szolgáltatást a web -re. Az oké gombra kattintás után kiválasztjuk az új remote-ot. Ezután elkezdődik az indexelése. Ennek befejeződése után már a konténerben fejleszthetünk. Első lépésként indítsuk el a Rails servert. Az Edit Configurations menüben a Development konfigurációban állítsuk át a docker compose parancsot excec-re. Ezután a zöld nyil megnyomásakor el is indul az alaklmazásunk.
+
+```Gemfile
+#Gemfile
+
+gem 'debase'
+gem 'ruby-debug-ide'
+```  
+
+Most már elkezdhetjük tesztelni a konténert. Elösszöris az alábbi paranccsal generáljunk pár tesztoldalt.
+
+```sh
+rails g scaffold ruby_mine name:string points:integer
+```
+
+Az oldalak sikeresen létrejönnek, de mikor a host-on szerkeszteni szeretnénk, akkor problémába ütközünk. A konténerben létrehozott file-ok tulajdonosa a root user, ezért csak olvasni tudjuk, szerkeszteni nem. Megoldás lehetne, hogy chow paranccsal ezt megváltoztatjuk, de ez nem túl jó megoldás, mivel ezt mindig meg kéne tennünk, amikor új file-okat hozunk létre a konténeren belülről. Ha a konténereben létrehozunk egy új felhasznalot és azzal próbáljuk létrehozzni a file-okat akkor is hibába ütközünk, mivel igy a konténeren belül nincs root jogunk. 
+
 ## Források
 - alap image: https://github.com/JetBrains/sample_rails_app
+- konténeren belül létrehozott fájlok jogosultsága problémaleírás: https://jtreminio.com/blog/running-docker-containers-as-current-host-user/
+- megoldás: https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/

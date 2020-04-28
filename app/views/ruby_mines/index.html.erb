@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ruby Mines</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Points</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ruby_mines.each do |ruby_mine| %>
+      <tr>
+        <td><%= ruby_mine.name %></td>
+        <td><%= ruby_mine.points %></td>
+        <td><%= link_to 'Show', ruby_mine %></td>
+        <td><%= link_to 'Edit', edit_ruby_mine_path(ruby_mine) %></td>
+        <td><%= link_to 'Destroy', ruby_mine, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ruby Mine', new_ruby_mine_path %>

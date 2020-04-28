@@ -1,0 +1,2 @@
+module RubyMinesHelper
+end
