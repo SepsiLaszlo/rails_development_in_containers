@@ -26,6 +26,10 @@ Az alkalmazás első futtatásakor létre kell hozni az adatbázist. Ez a web co
  rake db:create
 ```
 
+Ezután a localhost:3000 címen megtekinthető a weboldal.
+
+
+![alt text](images/start.png "Image")
 
 ## Források
 - alap image: https://github.com/JetBrains/sample_rails_app
