@@ -34,6 +34,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.18.5'
   gem 'debase'
   gem 'ruby-debug-ide'
+  gem 'solargraph'
 end
 
 group :development do

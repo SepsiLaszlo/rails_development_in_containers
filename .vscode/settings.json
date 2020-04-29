@@ -1,3 +1,19 @@
 {
-    "git.ignoreLimitWarning": true
+    "remote.extensionKind": {
+        "ms-azuretools.vscode-docker": "workspace"
+    },
+    "files.autoSave": "afterDelay",
+    "ruby.useLanguageServer": true,
+    "[ruby]": {
+        "editor.defaultFormatter": "castwide.solargraph"
+    },
+    "workbench.colorTheme": "Monokai",
+    "explorer.confirmDelete": false,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "solargraph.commandPath": "/usr/local/bundle/bin/solargraph",
+    "solargraph.diagnostics": true,
+    "ruby.format": "rubocop",
+    "solargraph.formatting": true,
+    "solargraph.autoformat": true
 }

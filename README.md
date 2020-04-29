@@ -108,3 +108,5 @@ Nyissuk meg a projectet VSCode-ban.
 - alap image: https://github.com/JetBrains/sample_rails_app
 - konténeren belül létrehozott fájlok jogosultsága problémaleírás: https://jtreminio.com/blog/running-docker-containers-as-current-host-user/
 - megoldás: https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/
+- vscode debug setup: https://share.atelie.software/using-visual-studio-code-to-debug-a-rails-application-running-inside-a-docker-container-3416918d8cc8
+- vscode language server setup: https://solargraph.org/guides/rails

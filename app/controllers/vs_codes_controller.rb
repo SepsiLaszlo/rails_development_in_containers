@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class VsCodesController < ApplicationController
-  before_action :set_vs_code, only: [:show, :edit, :update, :destroy]
+  before_action :set_vs_code, only: %i[show edit update destroy]
 
   # GET /vs_codes
   # GET /vs_codes.json
   def index
     @vs_codes = VsCode.all
+    
   end
 
   # GET /vs_codes/1
   # GET /vs_codes/1.json
-  def show
-  end
+  def show; end
 
   # GET /vs_codes/new
   def new
@@ -18,8 +20,7 @@ class VsCodesController < ApplicationController
   end
 
   # GET /vs_codes/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /vs_codes
   # POST /vs_codes.json
@@ -62,13 +63,14 @@ class VsCodesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_vs_code
-      @vs_code = VsCode.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def vs_code_params
-      params.require(:vs_code).permit(:name, :points)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_vs_code
+    @vs_code = VsCode.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def vs_code_params
+    params.require(:vs_code).permit(:name, :points)
+  end
 end
