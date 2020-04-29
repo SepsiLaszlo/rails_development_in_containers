@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>DevelopmentInContainers</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body class="vscode-light">
+        <h1 id="developmentincontainers">DevelopmentInContainers</h1>
+<h2 id="bevezet%c3%a9s">Bevezetés</h2>
+<p>Előkészités</p>
+<p>Szükségünk van egy docker image-re ami alapján létrehozhatjuk a konténereinket. Szerencsére sok már elkészitett kép közül választhatunk. Általában a DockerHUB oldalon érdemes megkeresni a megfelelő képet, de a JetBrains RubyMine csapata elkészitett egy remek példaprojectet, amiben a Dockerfile és a docker-comopse.yml is megtalálható nekünk megfeleő tartalommal, ezért azokat fogjuk használi kisebb módosításokkal.</p>
+<p>Kell egy test projek is amit a tesztelés során használhatunk. Ezt is konténerből fogjuk létrehozni. A Dockerfile-ban kikommentezzük a projekt bemásolásával és a gem-ek telepitésésvel kapcsolatos részeket, majd az alábbi parancsokkal létrehozzuk a projectet.</p>
+<pre><code class="language-sh"><div>docker-compose run web bash
+gem install rails 
+rails new test_app --database=postgresql
+
+</div></code></pre>
+<p>Majd a konténerenből kilépés után a teljes mappa tulajdonosát átállítjuk a jelenlegi felhasználóra.</p>
+<pre><code class="language-sh"><div> sudo chown -R <span class="hljs-variable">$USER</span> .
+</div></code></pre>
+<p>Ezután a test_app/test_app mappa tartalmát simán átmásoljuk a test_app mappába.
+Az alkalmazás első futtatásakor létre kell hozni az adatbázist. Ez a web conténerből az alábbi paranccsal tehető meg.</p>
+<pre><code class="language-sh"><div> rake db:create
+</div></code></pre>
+<p>Ezután a localhost:3000 címen megtekinthető a weboldal.</p>
+<p><img src="file:////home/user/Desktop/rails_development_in_containers/images/start.png" alt="alt text" title="Image"></p>
+<h2 id="forr%c3%a1sok">Források</h2>
+<ul>
+<li>alap image: <a href="https://github.com/JetBrains/sample_rails_app">https://github.com/JetBrains/sample_rails_app</a></li>
+</ul>
+
+    </body>
+    </html>

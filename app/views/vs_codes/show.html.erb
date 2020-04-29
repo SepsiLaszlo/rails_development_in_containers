@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @vs_code.name %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @vs_code.points %>
+</p>
+
+<%= link_to 'Edit', edit_vs_code_path(@vs_code) %> |
+<%= link_to 'Back', vs_codes_path %>

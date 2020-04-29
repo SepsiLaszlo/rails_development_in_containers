@@ -1,2 +1,3 @@
 class RubyMine < ApplicationRecord
+
 end

@@ -100,6 +100,10 @@ Teszteket is könnyedén futhatunk az IDE GUI-ján keresztül.
 
 A code-completion és az inteligens navigáció is működik.
 
+## Visual Studio Code
+
+Nyissuk meg a projectet VSCode-ban. 
+
 ## Források
 - alap image: https://github.com/JetBrains/sample_rails_app
 - konténeren belül létrehozott fájlok jogosultsága problémaleírás: https://jtreminio.com/blog/running-docker-containers-as-current-host-user/
