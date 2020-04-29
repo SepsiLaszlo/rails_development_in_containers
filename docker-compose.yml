@@ -4,15 +4,15 @@ services:
   db:
     image: postgres
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - /db:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
   web:
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
-#    command: tail -f /dev/null
+    # command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: tail -f /dev/null
     volumes:
       - .:/test_app
       - /test_app/node_modules

@@ -51,6 +51,7 @@
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debase (v0.2.4.1, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debase-ruby_core_source (v0.10.9, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="docile (v1.3.2, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.9.0, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.12.2, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.2, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
@@ -89,6 +90,8 @@
     <orderEntry type="library" scope="PROVIDED" name="sassc (v2.3.0, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sassc-rails (v2.1.2, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v3.142.7, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov (v0.18.5, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.2, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v2.1.0, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring-watcher-listen (v2.0.1, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.0.0, Remote: ruby-2.6.3-p62 (2)) [gem]" level="application" />
