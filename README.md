@@ -102,7 +102,19 @@ A code-completion és az inteligens navigáció is működik.
 
 ## Visual Studio Code
 
-Nyissuk meg a projectet VSCode-ban. 
+Nyissuk meg a projectet VSCode-ban. Első lépésként a telepitsük a szükséges extension-öket. Ezek az alábbiak:
+- Remote - Containers
+- Ruby
+- Ruby Solargraph
+
+Miután ezeket telepitettük inditsuk újra az IDE-t és inditsuk el docker-compose up parancs kiadásávala a konténereket. Ezután a bal oldalon lévő Docker logóra kattinva válasszuk ki rails_developmet_in_containers_web konténert, és válasszuk az Attach Visual Studio Code lehetőséget. Ezután telepítsük a konténerbe is a megfelelő gem-eket. Ezt a felhő gombra kattinva egyszerűen megtehetjük. A Solargraph müködéséhez extra beállításokat kell elvégeznünk, a források között található linken ez is megtekintehtő. Már csak egy lépés van, hogy elkezdhessük használi a fejlesztő környezetet. A launch.json fileban vegyük fel a Listen for rdebug-ide, Rails server konfigurációkat. A VSCode által javasolt előre definiált lehetőségek teljesen megfelelők. Ezek után már használhatjuk az okos navigálást, code-completion-t, valamit debugolhatjuk és tesztelhetjük az alkalmazásunk.
+
+
+![alt text](images/vscode_debug.png "Image")
+
+![alt text](images/vscode_test "Image")
+
+
 
 ## Források
 - alap image: https://github.com/JetBrains/sample_rails_app
