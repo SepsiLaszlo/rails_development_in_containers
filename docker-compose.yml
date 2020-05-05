@@ -11,7 +11,7 @@ services:
       - "5432:5432"
   web:
     build: .
-    # command: bundle exec rails s -p 3000 -b '0.0.0.0'
+#    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     command: tail -f /dev/null
     volumes:
       - .:/test_app
@@ -21,5 +21,6 @@ services:
       # Ports required for debugging
       - "1234:1234"
       - "26166:26168"
+      - "58438:58438"
     depends_on:
       - db

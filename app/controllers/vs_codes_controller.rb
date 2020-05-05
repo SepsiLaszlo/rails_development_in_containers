@@ -7,7 +7,7 @@ class VsCodesController < ApplicationController
   # GET /vs_codes.json
   def index
     @vs_codes = VsCode.all
-    
+  
   end
 
   # GET /vs_codes/1

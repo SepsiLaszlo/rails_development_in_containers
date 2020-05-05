@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :vs_codes
   resources :ruby_mines
-  root to: "vs_codes#index"
+  resources :vs_codes
+  # root to: "vs_codes#index"
+  root to: "ruby_mines#index"
 end

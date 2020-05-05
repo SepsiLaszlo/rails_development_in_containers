@@ -7,7 +7,7 @@
     "[ruby]": {
         "editor.defaultFormatter": "castwide.solargraph"
     },
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "Default Light+",
     "explorer.confirmDelete": false,
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
