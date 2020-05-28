@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>DevelopmentInContainers</title>
+        <title>Fejlesztés Docker konténerekben</title>
         <style>
 </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
@@ -24,17 +24,17 @@
         
     </head>
     <body class="vscode-light">
-        <h1 id="developmentincontainers">DevelopmentInContainers</h1>
+        <h1 id="fejlesztés-docker-konténerekben">Fejlesztés Docker konténerekben</h1>
 <h2 id="bevezetés">Bevezetés</h2>
-<p>A Docker és egyéb virualizációs technológiák az üzemeletésben már jelentősen elterjedtek, viszont a fejlesztésnél még csak sokkal szűkebb körben használtak. Egy egyszerű Ruby on Rails framework alapú projecten keresztül vizsgáljuk meg, hogy milyen szinten lehet hasznosítani a konténereket már a fejlesztés folyamtában. Az alkalmazásnak szüksége van egy Ruby nyelvet támogató környezetre és egy PostgreSQL adadtbázisra. Ezek a gazdagépre nem lesznek telepítve, kizárólag konténereken keresztül lesznek használva. A RubyMine és Visual Studio Code IDE-ket fogjuk beállitani és használni, hogy több szemszögből is áttekitsük a lehetőségeket.</p>
+<p>A Docker és egyéb virtualizációs technológiák az üzemeletésben már jelentősen elterjedtek, viszont a fejlesztésnél még csak szűkebb körben használtak. Egy egyszerű Ruby on Rails framework alapú projecten keresztül vizsgáljuk meg, hogy milyen szinten lehet hasznosítani a konténereket már a fejlesztés folyamtában is. Az alkalmazásnak szüksége van egy Ruby nyelvet támogató környezetre és egy PostgreSQL adadtbázisra. Ezek a gazdagépre nem lesznek telepítve, kizárólag konténereken keresztül lesznek használva. A <a href="https://www.jetbrains.com/ruby/">RubyMine</a> és <a href="https://code.visualstudio.com/">Visual Studio Code</a> IDE-ket fogjuk beállitani és használni. Ez a két eszköz eltérő módon közelíti meg a konténerek használatát, ezért érdemes mindkettőt megismerni.</p>
 <h2 id="miért-érdemes-ezzel-foglalkozni">Miért érdemes ezzel foglalkozni?</h2>
 <ul>
-<li>Gyorsan és egyszerűen el lehet kezdeni egy adott alkalmazáson dolgozni, ha Dockerizálva van. Nincs szükség eszközök letöltésére, konfigurálására, a konténerek inditása után már fejleszthetünk is.</li>
-<li>A fejlesztés és üzemeltetési környezetek közötti eltérések jelentős problémákat okzozhatnak egy alkamazás életciklusa közben. A konténerek által biztositott egységes környezetek csökkentik eznen problémák valószínűségét.</li>
-<li>Több alkalmazás párhuzamos fejlesztése adott eszközök eltérő verzióinak használatával könnyen megoldható, mivel könnyen lehet váltani a konténerek között.</li>
+<li>Gyorsan és egyszerűen el lehet kezdeni egy adott alkalmazáson dolgozni, ha van hozzá Docker konfiguráció. Nincs szükség a függőségek letöltésére, konfigurálására.</li>
+<li>A fejlesztés és üzemeltetési környezetek közötti eltérések jelentős problémákat okzozhatnak egy alkamazás életciklusa közben. A konténerek által biztositott egységes környezetek csökkentik ezen problémák valószínűségét.</li>
+<li>Több alkalmazás párhuzamos fejlesztése adott függőség (pl.: Adatbáziskezelő alakalmazás) eltérő verzióinak használatával könnyen megoldható, mivel könnyen lehet párhuzamosan használni több konténerhálózatot.</li>
 </ul>
-<h2 id="konténerek-elkszékszítése">Konténerek elkszékszítése</h2>
-<p>A JetBrains csapata elkészitett egy példa projektet, a konténerek elkészítéséhez azt vesszük alapul. Elösször szükségünk van egy konténerre amiben, a Rails keretrendszert tudjuk futtatni. Docker Hub-on nem találtam megfelelő image-et ehez, ezért az alábbi Dockerfile-ban érdemes leirni az image-et:</p>
+<h2 id="konténerek-elkészítése">Konténerek elkészítése</h2>
+<p>A JetBrains csapata elkészitett egy <a href="https://github.com/JetBrains/sample_rails_app">példa projektet</a>, a konténerek elkészítéséhez azt vesszük alapul. Elösször szükségünk van egy konténerre amiben, a Rails keretrendszert tudjuk futtatni. Docker Hub-on nem találtam megfelelő image-et ehez, ezért az alábbi <strong>Dockerfile</strong>-ban érdemes leirni az image-et:</p>
 <pre><code class="language-Dockerfile"><div><span class="hljs-keyword">FROM</span> ruby:<span class="hljs-number">2.6</span>.<span class="hljs-number">3</span>
 <span class="hljs-keyword">RUN</span><span class="bash"> curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -</span>
 <span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">"deb https://dl.yarnpkg.com/debian/ stable main"</span> | tee /etc/apt/sources.list.d/yarn.list</span>
@@ -52,8 +52,8 @@
 
 <span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
 </div></code></pre>
-<p>A fenti image a Ruby 2.6.3-as verzióját tartalmazza alapból, egy Debian rendszeren. Telepítjük még a Yarn és NodeJS csomagagokat, amik kezelik a projectben lévő JavaScript file-okat. Ezután létrehozzuk a test_app mappát és beállítjuk a konténer munkamappájának. Az ezt követő rész felelős az alkalmazás függőségeit képező Ruby és JavaScript könyvtárak letöltéséért. Az utolsó két sor bemásolja a project mappáját a konténerbe, majd 3000 portot elérhetővé teszi a gazdagépen.</p>
-<p>A fenti Dockerfile-t felhasználva már elkészithetjük az alkalmazás hálózatát leiró, docker-compose.yml file-t.</p>
+<p>A fenti image a Ruby 2.6.3-as verzióját tartalmazza, egy Debian rendszeren. Telepítjük még a Yarn és NodeJS csomagokat, amik kezelik a projectben lévő JavaScript file-okat. Ezután létrehozzuk a test_app mappát és beállítjuk a konténer munkamappájának. Az ezt követő rész felelős az alkalmazás függőségeit képező Ruby és JavaScript könyvtárak letöltéséért. Az utolsó két sor bemásolja a project mappáját a konténerbe, majd a konténer 3000-es portját elérthezővé teszi a gazdagép számára.</p>
+<p>A fenti Dockerfile-t felhasználva már elkészithetjük az alkalmazás hálózatát leiró, <strong>docker-compose.yml</strong> file-t.</p>
 <pre><code class="language-docker"><div>version: <span class="hljs-string">'3'</span>
 services:
   db:
@@ -79,24 +79,24 @@ services:
     depends_on:
       - db
 </div></code></pre>
-<p>A file első részében létrehozzuk a db szolgáltást, ami a postgres image-en alapú konténer lesz. Az adatbázisban tárolt adatok mappáját összekötjük valamelyik a host egyik mappájával, ezzel perzisztensé téve az adatbázis adatait. Az egyszerűség kedvéért jelszót nem állítunk be, ezt környezeti váltózóként tudjuk beállitani. Majd a host 5432-es portját a konténer 5432-es portjával összekötjük.</p>
-<p>A második szolgáltatásban fog futni a rails web szerver, ezért ezt web néven hozzuk létrehozni. Két lehetséges parancsot is felvettem. Az első elinditja a szervert. A második csak futó állapotban tartja a konténer, hogy egyéb fejlsztés közben csatlakozni lehessen hozzá.</p>
-<p>Az alap Rails project elkészíŧéséhez kommentezzük ki a --- tartalmazó sorok közötti részeket a Dockerfile-ban. Ezek a sorok majd az elkészült alkalmazás függőségeinek telepitéséért lesz felelős. Ezután létre kell hoznunk a konténereket, és a web szolgáltatásban telepítenünk kell a rails könyvtárat és létrehozni egy új alkalamazást, amit a PostgreSQL adatbázist fogja használni. Ha létrejött az alkalamzás, akkor a hozzá tartozó adatbázist is létre kell hozni. Az alábbi parancsok kiadásával tehetjük ezt meg.</p>
+<p>A file első részében létrehozzuk a <strong>db</strong> szolgáltást, ami a postgres image alapú konténer lesz. Az adatbázisban tárolt adatok mappáját összekötjük a host egyik mappájával, ezzel perzisztensé téve az adatbázis adatait. Az egyszerűség kedvéért jelszót nem állítunk be. Majd a host 5432-es portját és a konténer 5432-es portját összekötjük.</p>
+<p>A második szolgáltatásban fog futni a rails web szerver, ezért ezt <strong>web</strong> néven hozzuk létrehozni. Két lehetséges parancsot is felvettem. Az első elinditja a szervert. A második csak futó állapotban tartja a konténer, hogy fejlsztés közben csatlakozni lehessen hozzá.</p>
+<p>Az alap Rails project elkészíŧéséhez kommentezzük ki a --- tartalmazó sorok közötti részeket a Dockerfile-ban. Ezek a sorok majd az elkészült alkalmazás függőségeinek telepitéséért lesznek felelősek. Ezután létre kell hoznunk a konténereket és a web szolgáltatásban telepítenünk kell a rails könyvtárat, valamint létrehozni egy új alkalamazást, ami a PostgreSQL adatbázist fogja használni. Ha létrejött az alkalamzás, akkor a hozzá tartozó adatbázist is létre kell hozni. Az alábbi parancsok kiadásával tehetjük ezt meg.</p>
 <pre><code class="language-sh"><div>docker-compose run web bash
 gem install rails 
 rails new test_app --database=postgresql
 rails db:create
 </div></code></pre>
-<p>A gazdagépen észrevetjük, hogy a létrehozott file-ok tulajdonosa a root felhasználó. Ez nehezíti a file-ok kezelését. Egy kézenfekvő megoldás a problémára, hogy megváltoztajuk a file-ok tulajdonosát:</p>
+<p>A gazdagépen észrevhetjük, hogy a létrehozott file-okat nem tudjuk szerkeszteni, mivel a tulajdonosuk a root felhasználó. Ez nehezíti a file-ok kezelését. Egy kézenfekvő megoldás a problémára, hogy megváltoztajuk a file-ok tulajdonosát:</p>
 <pre><code class="language-sh"><div> sudo chown -R <span class="hljs-variable">$USER</span> .
 </div></code></pre>
-<p>Ez a megoldás hosszútávon nem ideális, mivel mindig meg kell változtatnuk a file-ok tulajdonosát, amikor a konténerből hozzuk létre őket. A Docker lehetőséget biztosít a felhasználói névtért map-elésére. Ezáltal elérhetjük, hogy a konténeren belüli root felhasználóhoz, a konténeren kívül a saját felhasználón tartozzon. Igy a konténeren belül létrehozott file-oknak is mi leszünka a tulajdonosai. Ennek a beállitásához az alábbi lépéseket kell követni.</p>
+<p>Ez a megoldás hosszútávon nem ideális, mivel mindig meg kell változtatnuk a file-ok tulajdonosát, amikor a konténerből hozzuk létre őket. A Docker lehetőséget biztosít a felhasználói névtért map-elésére. Ezáltal elérhetjük, hogy a konténeren belüli root felhasználóhoz, a konténeren kívül a saját felhasználón tartozzon. Igy a konténeren belül létrehozott file-oknak is a saját felhasználónk lesz a tulajdonosa. Ennek a beállitásához az alábbi lépéseket kell követni.</p>
 <p>Állitsuk be a felhasználó által használható UID-ket. Ehez nézzük meg felhasználónevünket <code>$USER</code> váltózóban ,valamint a UID-t az <code>id -u</code> paranccsal. Az alábbi fáljhoz hozzáadunk egy új bejegyzést, ami tartalmazza a felhasználónevünket(user), a UID-t(1000), és a kiosztható ID-k számát(1), kettősponttal elválasztva.</p>
 <pre><code><code><div>#/etc/subuid
 
 user:1000:1
 </div></code></code></pre>
-<p>Végezzük el a fenti műveletet a GID-kre. Annyi különbséggel, hogy itt a saját csoportunk ID-jét használjuk. Ezt az id -g paranccsal kérhetjük le.</p>
+<p>Végezzük el a fenti műveletet a GID-kre. Annyi különbséggel, hogy itt a saját csoportunk ID-jét használjuk. Ezt az <code>id -g</code> paranccsal kérhetjük le.</p>
 <pre><code><code><div>#/etc/subgid
 user:127:1
 </div></code></code></pre>
@@ -112,11 +112,11 @@ user:127:1
 <p>Ezután már a konténerből létrehozott fájlok tulajdonosa a gazdagépen a saját felhasználónk lesz. Az alábbi paranccsal elindihatjuk a konténereinket.</p>
 <pre><code class="language-sh"><div>docker-compose up
 </div></code></pre>
-<p>A localhost 3000-es portán megtekinthetjük a Rails szerver kezdőoldalát.</p>
+<p>A <a href="http://localhost:3000/">localhost:3000</a> megtekinthetjük a Rails szerver kezdőoldalát.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/start.png" alt="alt text" title="Image"></p>
 <h2 id="rubymine-konfigurálás">RubyMine konfigurálás</h2>
 <p>Elösször gyorsan áttekintjük, miként állithatjuk be, hogy a RubyMine a konténerünet használja fejlesztés során. Megnyitjuk az IDE-t a projectünk mappájában. A <strong>Settings/Preferences/Languages &amp; Frameworks/Ruby SDK and Gems</strong> oldalra navigálunk. Itt a New remote gombra kattintva felugrik egy dialógus ablak. Ezen beállítjuk a Docker Compose használatát. A lehetséges szolgáltatások közül kiválasztjuk a <strong>web</strong>-et. Az oké gombra kattintás után kiválasztjuk a most létrehozott remote-ot.</p>
-<p>Ahoz, hogy el tudjuk indtani  az IDE-ből a webszervert létre kell, hoznunk a megfelelő konfigurációs file-t. Ezt a <strong>Edit configurations</strong>-menupont használatával tehetjük meg. Ezene belül a <strong>template</strong>-ek közül válasszuk ki a <strong>Rails</strong> konfigurációt. Állitsuk át a használt docker-compose parancsot, <strong>docker-compose exec</strong>-re. Ezután már elindítható a webszerver.</p>
+<p>Ahoz, hogy el tudjuk indtani  az IDE-ből a webszervert létre kell, hoznunk a megfelelő konfigurációs file-t. Ezt a <strong>Edit configurations</strong>-menupont használatával tehetjük meg. Ezene belül a <strong>template</strong>-ek közül válasszuk ki a <strong>Rails</strong> konfigurációt. Állitsuk át a használt docker-compose parancsot, <strong>docker-compose exec</strong>-re. Ezután már elindítható lesz a webszerver.</p>
 <p>A debuggolás használatához még szükségünk lesz 2 gem-re. Ezek felvételéhez elösször írjuk be az alábbi sorokata a Gemfile-ba.</p>
 <pre><code class="language-Gemfile"><code><div>#Gemfile
 
@@ -128,29 +128,41 @@ gem 'ruby-debug-ide'
 <p>A Rails keretrendszer lehetőséget biztosít generátorok használatára, amik segítségével egy CRUD-ot megvalósító, tesztekkel ellátott weboldalt hozhatunk létre. Ennek használatával fogjuk kipróbálni a fejlesztőkörnyezet funkcióit. Ahhoz, hogy parancsokat tudjunk futtatni a konténerben, elöször csatlakoznunk kell hozzá. Ezt az alábbi parancsal tehetjük meg.</p>
 <pre><code class="language-sh"><div>docker-compose <span class="hljs-built_in">exec</span> web bash
 </div></code></pre>
-<p>Alapvetően a RubyMine terminálja nem kapcsolódik a konténerekhez. Több mód is van, hogy a fejlesztőkörnyezet intergrált terminálját automatikusan hozzákapcsoljuk az általunk választott konténerhez. Például a Services oldalon az attach menüpont használatával vagy a Shell Path átállításával. Az egyszerűség kedvért most manuálisan, a fenti paranccsal csatlakozunk a konténerhez, mivel nem lesz errre gyakran szükség.</p>
+<p>Alapvetően a RubyMine terminálja nem kapcsolódik a konténerekhez. Több mód is van, hogy a fejlesztőkörnyezet intergrált terminálját automatikusan hozzákapcsoljuk az általunk választott konténerhez. Például a Services oldalon az attach menüpont használatával vagy a Shell Path átállításával. Az egyszerűség kedvért most manuálisan, a fenti paranccsal csatlakozunk a konténerhez, mivel nem lesz erre gyakran szükség.</p>
 <p>Ezután a konténerben navigáljunk el a projectünk mappájába (/test_app) és már, ki is adhatjunk a parancsot, amivel hozzáadunk alapvető funkcionalitásokat az alkalmazásunkhoz.</p>
 <pre><code class="language-sh"><div>rails g scaffold ruby_mine name:string points:<span class="hljs-built_in">integer</span>
 </div></code></pre>
 <p>Ha mindent jól csináltunk, akkor az alábbi sorok jelennek meg a konzolon:</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/mine_generate.png" alt="alt text" title="Image"></p>
-<p>Láthajuk, hogy létrejöttek oldalak (.erb kiterjesztéssel), tesztek, valamint egy kontroller is. Főként ezeket fogjuk használni az IDE tesztelés során. A <strong>zöld háromszög</strong> gomb lenyomásával elindítható a webszerver, ami a <a href="http://localhost:3000/">local</a>-es címen elérhető.</p>
+<p>Láthajuk, hogy létrejöttek oldalak, tesztek, valamint egy kontroller is. Főként ezeket fogjuk használni az IDE tesztelés során. A <strong>zöld háromszög</strong> gomb lenyomásával elindítható a webszerver, ami a <a href="http://localhost:3000/">localhost:3000</a>-es címen elérhető.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/mine_server.png" alt="alt text" title="Image"></p>
-<p>Ezután próbáljuk ki a többi fontosabb eszköz működését az IDE-ben. A debug, miután beállitottuk, hogy docker exec-el legyen használva, egyből működik a fő alkalmazásban.</p>
+<p>Ezután próbáljuk ki a többi fontosabb eszköz működését az IDE-ben. A debug, miután beállitottuk, hogy docker exec-el legyen használva, egyből használható.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/mine_debug.png" alt="alt text" title="Image"></p>
 <p>Teszteket is könnyedén futhatunk az IDE GUI-ján keresztül. Ehhez navigáljunk egy testeket tartalmazó file-hoz, mondjuk <strong>test/controllers/ruby_mines_controller_test.rb</strong>, itt a <strong>jobb egérgomb</strong> lenyomásával megjelennek a kontextusfüggő lehetőségek. Ezekközül válasszuk a <strong>Run Minitest:</strong>-lehetőséget. A tesztek futásának eredményét is megjeleníti a fejesztőkörnyezet. Emellet van lehetőség a tesztek közül csak egyet futttani, valmint debug módban is elindíthatjuk a teszteket.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/mine_test.png" alt="alt text" title="Image"></p>
-<p>A code-completion és az inteligens navigáció is működik, bár ezekhez nem szükséges a nyelvi környezet, az IDE önellóan nyújtja ezeket a szolgáltatásokat. Szinte minden lehetőség elérhető a konténerből, amit a natívan használt verzió támogat, egy kivételével. A nativ ruby-t használó IDE-ben van lehetőség egyes tesztek futtaása után kilistázni a tesztlfedettséget. Valamint az érintett sorokat is szinezi a környezet, annak függvényében, hogy érintette őket az adott futás. Ez lehetőség még konténeres használat során nem eléhető, de a fejlesztők már tudnak a <a href="https://youtrack.jetbrains.com/issue/RUBY-12337">problémáról</a>.</p>
-<h2 id="visual-studio-code">Visual Studio Code</h2>
-<p>Nyissuk meg a projectet VSCode-ban. Első lépésként a telepitsük a szükséges extension-öket. Ezek az alábbiak:</p>
+<p>A code-completion és az inteligens navigáció is működik, bár ezekhez nem szükséges a nyelvi környezet, az IDE önellóan nyújtja ezeket a szolgáltatásokat. Szinte minden lehetőség elérhető a konténerből, amit a natívan használt verzió támogat. Egy kivételt találtam. A nativ ruby-t használó IDE-ben van lehetőség egyes tesztek futtatása után kilistázni a tesztlfedettséget. Valamint az érintett sorokat is szinezi a környezet, annak függvényében, hogy érintette őket az adott futás. Ez a lehetőség még konténeres használat során nem eléhető, de a fejlesztők már tudnak a <a href="https://youtrack.jetbrains.com/issue/RUBY-12337">problémáról</a>.(A PyCharm alkalmazásban már megodldották, hogy elérhető legyen remote használatával ez a funkcionalitás.)</p>
+<h2 id="visual-studio-code-konfigurálás">Visual Studio Code konfigurálás</h2>
+<p>Nyissuk meg a projectet VSCode-ban. Első lépésként a <strong>telepitsük a szükséges extension-öket</strong>. Ezek az alábbiak:</p>
 <ul>
 <li>Remote - Containers</li>
 <li>Ruby</li>
 <li>Ruby Solargraph</li>
 </ul>
-<p>Miután ezeket telepitettük inditsuk újra az IDE-t és inditsuk el docker-compose up parancs kiadásávala a konténereket. Ezután a bal oldalon lévő Docker logóra kattinva válasszuk ki rails_developmet_in_containers_web konténert, és válasszuk az Attach Visual Studio Code lehetőséget. Ezután telepítsük a konténerbe is a megfelelő gem-eket. Ezt a felhő gombra kattinva egyszerűen megtehetjük. A Solargraph müködéséhez extra beállításokat kell elvégeznünk, a források között található linken ez is megtekintehtő. Már csak egy lépés van, hogy elkezdhessük használi a fejlesztő környezetet. A launch.json fileban vegyük fel a Listen for rdebug-ide, Rails server konfigurációkat. A VSCode által javasolt előre definiált lehetőségek teljesen megfelelők. Ezek után már használhatjuk az okos navigálást, code-completion-t, valamit debugolhatjuk és tesztelhetjük az alkalmazásunk.</p>
+<p>Miután ezeket telepitettük <strong>inditsuk újra az IDE-t</strong> és inditsuk el <strong>docker-compose up</strong> parancs kiadásávala a konténereket. Ezután a bal oldalon lévő <strong>Docker logóra</strong> kattinva válasszuk ki <strong>rails_developmet_in_containers_web</strong> konténert, és válasszuk az Attach Visual Studio Code lehetőséget. Ezután telepítsük a konténerbe is a megfelelő extension-öket. Ezt a <strong>felhő gombra</strong> kattinva egyszerűen megtehetjük. Ezután az <strong>Open Folder</strong> gomb használatával nyissuk meg <strong>/test_app</strong> mappát. A Solargraph müködéséhez extra beállításokat kell elvégeznünk, a források között található <a href="https://solargraph.org/guides/rails">linken</a> ez is megtekintehtő,de ezt itt nem írnám le részletesen. Már csak egy lépés van, hogy elkezdhessük használi a fejlesztő környezetet. A <strong>launch.json</strong> file-ban vegyük fel a <strong>Rails server, Listen for rdebug-ide, Rails test</strong> konfigurációkat. A VSCode által javasolt előre definiált lehetőségek teljesen megfelelők. Ezek után már használhatjuk az okos navigálást, code-completion-t, valamit debugolhatjuk és tesztelhetjük az alkalmazásunk.</p>
+<h2 id="vscode-használata">VSCode használata</h2>
+<p>Az egyik legnagyobb különbség a VSCode és a RubyMine használata között, hogy a VSCode integrált terminálja autómatikusan kapcsolódik a konténerhez, igy egyéb beállítások / parancsok nélkül is elérhetjük a konténer parancssorát. Ezt használva itt is létrehozhatjuk, a fenti példához hasonlóan, a teszteléshez szükséges file-okat.</p>
+<pre><code class="language-sh"><div>rails g scaffold vs_code name:string points:<span class="hljs-built_in">integer</span>
+</div></code></pre>
+<p>A fenti parancs kimenetén a létrehozott file-ok nevére kattintva gyorsan megnyithatjuk, az adott file-t.</p>
+<p><img src="file:////home/user/Desktop/rails_development_in_containers/images/vscode_generate.png" alt="alt text" title="Image"></p>
+<p>Ha sikeresen felvettük a szükséges konfigurációkat a launch.json file-ba, akkor a <strong>Run</strong> tabon kiválaszthatjuk a <strong>Rails server</strong> konfigurációt és a zöld hárömszöggel elidíthatjuk a a szervert.</p>
+<p><img src="file:////home/user/Desktop/rails_development_in_containers/images/vscode_server.png" alt="alt text" title="Image"></p>
+<p>A debuggoláshoz <strong>Run</strong> tabon, válasszuk ki a <strong>Listen for rdebug-ide</strong> konfigurációt, majd indítsuk el. Felvehetünk break pontokat, megnézhetjük a stack trace-t, valamint megfigyelhetjük a változók értékeit.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/vscode_debug.png" alt="alt text" title="Image"></p>
+<p>A tesztek futtatásához, a <strong>Run</strong> tabon a <strong>Rails test</strong> konfiguráció elindításával van lehetőségünk. A VSCode tesztfuttatás terén kevesebb lehetőséget biztosít, mint a RubyMine. Külön konfiguráció nélkül, csak egyszerre tudjuk futtatni a teszteket, egy kiválasztott tesztet önállóan nem indíthatunk el. Valamint a tesztek debug-olásaház is új konfigurációt kell hozzádni, a launch.json file-hoz.</p>
 <p><img src="file:////home/user/Desktop/rails_development_in_containers/images/vscode_test.png" alt="alt text" title="Image"></p>
+<h2 id="összefoglalás">Összefoglalás</h2>
+<p>Amikor mérlegeljük, hogy megéri-e konténeres környezetben fejleszteni több szempontot érdemes figyelembe venni. Az első az lehet, hogy a nekünk szükséges környezet konfigurálása mennyire összetett / időigényes. Ha van megfelelő Dockerfile, docker-compose.yml, valamint már használtunk olyan IDE-t, ami támogatja a konténerek használatát, akkor a konfiguráció jelentősen egyszerűbb. Valamint érdemes utánanézni, hogy vannak-e olyan funkcionalitások, a választott IDE-ben, amik konténeres környezetben nem használhatók, valamint ezek mennnyire szükségesek a munkánkhoz. Talán a legfontosabb tényező, hogy mennyi időt takaríthatunk meg, ha virtualizált környezetben fejlesztünk. Ha többen dolgozunk egy projecten, akkor hatékony lehet, hogy nem kell mindenkinek a telepítést és konfigurálást elvégezni, valamint egységes működésre lehet számítani minden eszköznél, tehát ilyenkor jelentős időt takaríŧhatunk meg.</p>
 <h2 id="források">Források</h2>
 <ul>
 <li>rubymine setup: <a href="https://www.jetbrains.com/help/ruby/using-docker-compose-as-a-remote-interpreter.html">https://www.jetbrains.com/help/ruby/using-docker-compose-as-a-remote-interpreter.html</a></li>
@@ -159,8 +171,11 @@ gem 'ruby-debug-ide'
 <li>megoldás: <a href="https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/">https://www.jujens.eu/posts/en/2017/Jul/02/docker-userns-remap/</a></li>
 <li>docker user namespace dokumentáció: <a href="https://success.docker.com/article/introduction-to-user-namespaces-in-docker-engine">https://success.docker.com/article/introduction-to-user-namespaces-in-docker-engine</a></li>
 <li>vscode debug setup: <a href="https://share.atelie.software/using-visual-studio-code-to-debug-a-rails-application-running-inside-a-docker-container-3416918d8cc8">https://share.atelie.software/using-visual-studio-code-to-debug-a-rails-application-running-inside-a-docker-container-3416918d8cc8</a></li>
-<li>vscode language server setup: <a href="https://solargraph.org/guides/rails">https://solargraph.org/guides/rails</a></li>
-<li>tesztlefedettség vizualizáció issue: <a href="https://youtrack.jetbrains.com/issue/RUBY-12337">1</a></li>
+<li>vscode Solargraph (language server) setup: <a href="https://solargraph.org/guides/rails">https://solargraph.org/guides/rails</a></li>
+<li>tesztlefedettség vizualizáció issue: <a href="https://youtrack.jetbrains.com/issue/RUBY-12337">https://youtrack.jetbrains.com/issue/RUBY-12337</a></li>
+<li>Ruby Mine: <a href="https://www.jetbrains.com/ruby">https://www.jetbrains.com/ruby</a></li>
+<li>Visual Studio Code: <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>alap project: <a href="https://github.com/JetBrains/sample_rails_app">https://github.com/JetBrains/sample_rails_app</a></li>
 </ul>
 
     </body>
